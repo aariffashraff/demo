@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col col-md-6 form_reg">
+      <div class="bg_main">
+        <div class="form_head">
+          <h2>Login Form</h2>
+          <p>Please fill in the details below</p>
+        </div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+          <!-- Email Input -->
+          <div class="form-floating mb-4">
+            <input type="email" class="form-control text_box" formControlName="email" placeholder="name@example.com" id="email" name="email" required>
+            <label for="email">Email</label>
+            <div *ngIf="loginForm.controls.email?.invalid && loginForm.controls.email?.touched" class="text-danger">
+              Invalid email address.
+            </div>
+          </div>
+
+          <!-- Confirm Email Input -->
+          <div class="form-floating mb-4">
+            <input type="email" class="form-control text_box" formControlName="confirmEmail" placeholder="name@example.com" id="confirm-email" name="confirm-email" required>
+            <label for="confirm-email">Confirm Email</label>
+            <div *ngIf="loginForm.controls.confirmEmail?.invalid && loginForm.controls.confirmEmail?.touched" class="text-danger">
+              Invalid confirm email address.
+            </div>
+            <div *ngIf="loginForm.hasError('emailMismatch') && loginForm.controls.confirmEmail?.touched" class="text-danger">
+              Emails do not match.
+            </div>
+          </div>
+
+          <!-- Password Input -->
+          <div class="form-floating mb-4">
+            <input type="password" class="form-control text_box" formControlName="password" placeholder="*********" id="password" name="password" required>
+            <label for="password">Password</label>
+            <div *ngIf="loginForm.controls.password?.invalid && loginForm.controls.password?.touched" class="text-danger">
+              Password must be at least 6 characters long.
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="d-grid mb-4">
+            <button class="btn btn-primary btn-lg" type="submit" [disabled]="loginForm.invalid">Submit</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

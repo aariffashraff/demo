@@ -1,0 +1,10 @@
+.tb_con{
+  padding: 50px;
+}
+.table{
+  border-radius: 4px;
+  border: 1px solid #bdbcbc;
+}
+.table > thead{
+  background: #9f9f9b;
+}
