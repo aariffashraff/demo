@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {AuthorizationService} from '../../services/authorization.service';
+import {User} from '../list-user/user';
 
 // Custom validator to check if email and confirm email match
 function matchEmailValidator(formGroup: FormGroup) {
@@ -10,7 +12,7 @@ function matchEmailValidator(formGroup: FormGroup) {
   const confirmEmail = formGroup.get('confirmEmail')?.value;
 
   if (email && confirmEmail && email !== confirmEmail) {
-    formGroup.get('confirmEmail')?.setErrors({ emailMismatch: true });
+    formGroup.get('confirmEmail')?.setErrors({emailMismatch: true});
   } else {
     formGroup.get('confirmEmail')?.setErrors(null);
   }
@@ -32,7 +34,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private service: AuthorizationService
   ) {
     this.loginForm = this.fb.group(
       {
@@ -40,7 +43,7 @@ export class LoginComponent {
         confirmEmail: ['', [Validators.required, Validators.email]], // Added confirm email
         password: ['', [Validators.required, Validators.minLength(6)]]
       },
-      { validators: matchEmailValidator } // Apply custom email match validator
+      {validators: matchEmailValidator} // Apply custom email match validator
     );
 
     // Listen to changes in confirmEmail and trigger validation
@@ -55,13 +58,16 @@ export class LoginComponent {
 
       this.http.post(this.apiUrl, formData).subscribe(
         response => {
-          console.log('Login successful', response);
-          alert('Login successful');
+
           this.router.navigateByUrl('/');
         },
         error => {
-          console.error('Login failed', error);
-          alert('Login failed');
+          const user = new User();
+          user.id = 101;
+          user.name = "Aarif Ashraf";
+          user.email = "aarif@gmail.com"
+
+          this.service.setUser(user);
           this.router.navigateByUrl('/');
         }
       );

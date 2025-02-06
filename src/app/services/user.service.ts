@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
 })
 export class UserService {
 
-  users: User[] | undefined;
+  users: User[] = [];
 
   constructor(private http: HttpClient) {
     this.http.get<User[]>('https://easyshop.free.beeceptor.com/user/list').subscribe((users) => {
