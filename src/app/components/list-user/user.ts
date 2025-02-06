@@ -1,6 +1,6 @@
 export class User {
-  id : number| undefined;
-  name : string| undefined;
-  gender : string| undefined;
-  email: string | undefined;
+  id: number;
+  name: string;
+  gender: string;
+  email: string;
 }
